@@ -1,6 +1,8 @@
-topic_root=nivelles
-mqtt_server=localhost
+topic_root=zway
+mqtt_server=wasabi
+mqtt_user=razberry
+mqtt_password=forgetmenot
 zway_server=localhost
 zway_user=admin
-zway_pass=echelle 
-refresh=3
+zway_pass=unforgetable
+refresh=15
