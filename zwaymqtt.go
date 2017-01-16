@@ -14,8 +14,8 @@ import (
   "net/http"
   "io/ioutil"
 
-  MQTT "git.eclipse.org/gitroot/paho/org.eclipse.paho.mqtt.golang.git"
-  pfl "github.com/davecheney/profile"
+  MQTT "github.com/eclipse/paho.mqtt.golang"
+  pfl "github.com/pkg/profile"
 )
 
 type MqttUpdate struct {
@@ -828,7 +828,7 @@ func checkzwayupdate(update string,mqtt_updates chan<- MqttUpdate) {
 }
 
 //define a function for the default message handler
-var f MQTT.MessageHandler = func(client *MQTT.Client, msg MQTT.Message) {
+var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
   topic := msg.Topic()
   value := string(msg.Payload())
   for _, g := range gateways {
@@ -916,15 +916,15 @@ func zwayget(api string, path string) (string, error) {
 func main() {
   //start profiling
   if len(profile) > 0 {
+    
     log.Print("Profiling enabled")
-    cfg := pfl.Config{}
     if profile=="mem" || profile=="all" {
-      cfg.MemProfile = true
+      defer pfl.Start(pfl.MemProfile).Stop()
     }
     if profile=="cpu" || profile=="all" {
-      cfg.CPUProfile = true
+      defer pfl.Start(pfl.CPUProfile).Stop()
     }
-    defer pfl.Start(&cfg).Stop()
+    //defer pfl.ProfileStart(pfl.Profile.CPUProfile).Stop()
   }
   //print informations given
   log.Print("Starting Z-Way to mqtt gateway...")

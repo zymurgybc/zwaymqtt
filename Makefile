@@ -6,8 +6,8 @@ SRC_FILES=$(wildcard *.go)
 BUILD_FLAGS=-ldflags '-s -w -extldflags "-static"' -a 
 
 deps:
-	go get git.eclipse.org/gitroot/paho/org.eclipse.paho.mqtt.golang.git
-	go get github.com/davecheney/profile
+	go get github.com/eclipse/paho.mqtt.golang
+	go get github.com/pkg/profile
 
 build-windows-amd64:
 	@$(MAKE) build GOOS=windows GOARCH=amd64 CGO_ENABLED=0 SUFFIX=.exe
